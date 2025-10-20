@@ -7,29 +7,60 @@ using namespace std;
 
 class CustomMatrix{
 public:
-    bool mat[3][3]={0};
+    // Define the kernel size as a constant
+    static const int KERNEL_SIZE = 5;
+
+    // Matrix now uses the kernel size
+    bool mat[KERNEL_SIZE][KERNEL_SIZE] = {0};
+
     CustomMatrix(){
 
     }
 
-    //alternate way to instantiate the class
-    CustomMatrix(bool m[3][3]){
-        const int m_size = sizeof(m) / sizeof(m[0]);
-        for (int i=0;i< m_size;i++) {
-            for(int j=0; j < sizeof(m[0]);j++){
-                //cout << i << " " << j << endl;
+    // Alternate constructor (not recommended, as sizeof(m) won't work)
+    CustomMatrix(bool m[KERNEL_SIZE][KERNEL_SIZE]){
+        fillMatrix(m);
+    }
+
+    // Correct way to fill the matrix
+    void fillMatrix(bool m[KERNEL_SIZE][KERNEL_SIZE]){
+        for (int i = 0; i < KERNEL_SIZE; i++) {
+            for(int j = 0; j < KERNEL_SIZE; j++){
                 mat[i][j] = m[i][j];
             }
         }
     }
 
-    void fillMatrix(bool m[3][3]){
-        const int m_size = sizeof(m) / sizeof(m[0]);
-        for (int i=0;i< m_size;i++) {
-            for(int j=0; j < sizeof(m[0]);j++){
-                //cout << i << " " << j << endl;
-                mat[i][j] = m[i][j];
+    // Check if matrix is matched
+    bool matches(const CustomMatrix& pattern) const {
+        for (int i = 0; i < KERNEL_SIZE; i++) {
+            for (int j = 0; j < KERNEL_SIZE; j++) {
+                if (mat[i][j] != pattern.mat[i][j]) {
+                    return false;
+                }
             }
+        }
+        return true;
+    }
+
+
+    // Check if window is empty (all false)
+    bool isEmpty() const {
+        for (int i = 0; i < KERNEL_SIZE; i++) {
+            for (int j = 0; j < KERNEL_SIZE; j++) {
+                if (mat[i][j]) return false;
+            }
+        }
+        return true;
+    }
+
+    // Print matrix for debugging
+    void print() const {
+        for (int i = 0; i < KERNEL_SIZE; i++) {
+            for (int j = 0; j < KERNEL_SIZE; j++) {
+                cout << (mat[i][j] ? "1" : "0") << " ";
+            }
+            cout << endl;
         }
     }
 };

@@ -40,6 +40,12 @@ protected:
 private:
     // A vector to store all the points drawn by the user
     QVector<QPoint> m_points;
+    QVector<QLine> m_lines;          // persistent lines
+
+    QVector<CustomMatrix> m_segmentPatterns;
+    QVector<QPoint> m_detectedSegments;
+
+    void initializePattern();
 
     bool isPaintLinesClicked = false;
 };
